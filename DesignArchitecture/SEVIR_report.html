@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>SEVIR Technical Report</title>
+  <link rel="stylesheet" href="./scholarly.min.css">
+</head>
+
+<body>
+  <header>
+    <h1>SEVIR Technical Raport</h1>
+  </header>
+  <div role="contentinfo">
+    <dl>
+      <dt>Authors</dt>
+      <dd>
+        Turcu Ana-Maria & Vararu Cristian
+      </dd>
+    </dl>
+  </div>
+  <section typeof="sa:Abstract" id="abstract">
+    <h2><span>1. </span>Abstract</h2>
+    <p>
+      SEVIR (semantic-based virtual guide) project is a proposal of Web application that will
+      allow clients to use the power of the cartographic Web services in order to augment the
+      information about one or more points of interest according to user preferences and
+      the current context.
+    </p>
+  </section>
+  <section id="requirements">
+    <h2><span>2. </span>Requirements</h2>
+    <p>
+      Use well-known cartographic Web service(s), in conjunction to OpenStreetMap and LinkedGeoData,
+      in order to augment the information about one or more points (places) of interest according to
+      user preferences (e.g., significant routes, businesses, touristic attractions, nearby locations)
+      and context: a specific location, date/time, device, current activity, mood, health status,...
+      "Smart" suggestions like orientation clues, map annotations, plus external knowledge could be
+      provided by DBpedia and/or Wikidata. Take into consideration the use of proper conceptual models
+      regarding the map-related information, car GPS integration, user needs (example: a family having
+      small children wants a smooth itinerary including many stops versus a group of youngsters focused
+      on fun + (pleasant) surprises), internationalization (i.e., support for automated translation)
+      and localization, plus the integration with popular social Web applications – supporting actions
+      like sharing and/or accessing photos, videos, reviews, advices, etc. All data managed by the
+      developed application will be accessed via a SPARQL endpoint. Additionally, various travel-related
+      APIs could be used. Bonus: offer also a conversational Web interface – for instance, integrate
+      a chatter bot.
+    </p>
+  </section>
+  <section id="usecases">
+    <h2><span>3. </span>Use cases</h2>
+    <figure typeOf="sa:image">
+      <img src="UseCase.drawio.png" alt="Usecase diagram">
+      <figcaption style="text-align: center;">Fig. 1: Usecase diagram</figcaption>
+    </figure>
+    <p>
+      The application might be used by a normal user with the fallowing use case scenarios:
+    </p>
+    <ul>
+      <li>Register as a new user of the application.</li>
+      <li>Authenticate using a username and a password. This action requires registration.</li>
+      <li>View a map with multiple interest points based on the real time location of
+        the user. This action requires authentication. </li>
+      <li>Add/update the user's preferences. This action requires authentication. </li>
+      <li>Set a actual context: mood, health status, etc. This action requires authentication.</li>
+      <li>Search for suggested places to visit, orientation clues, possible itinerary to o specific
+        destination based on the actual parameters set from context and also on the user's preferences.
+        This action requires authentication.</li>
+      <li>Share or access photos, videos, reviews, advices on/from social media. This action requires
+        authentication. </li>
+    </ul>
+  </section>
+  <section id="architecture">
+    <h2><span>4. </span>Architecture</h2>
+    <figure typeOf="sa:image">
+      <img src="Architecture.png" alt="Architecture" width="900">
+      <figcaption style="text-align: center;">Fig. 2: Overall of the SEVIR application architecture </figcaption>
+    </figure>
+    <p>
+      SEVIR will be implemented as a Angular Web Application that will call 4 principal
+      services implemented using Java:
+    </p>
+    <ul>
+      <li>Accounts service: it will be used as a the users management system. </li>
+      <li>Preferences service: it will be responsible for updating and retrieving the information about
+        the user preferences.</li>
+      <li>Suggestions service: it will be responsible for generating suggestions based on user
+        preferences and context. </li>
+      <li>Social-Media service: it will be used for sharing/accessing photos, videos, reviews, advices, etc. </li>
+    </ul>
+    <p>
+      The storage for both the Accounts and Preferences services will be provided by a relational database
+      (MySQL) and the operation on it will be done via a SPARQL request.
+    </p>
+    <p>
+      Moreover, there will be used 2 external APIs: OpenStreetMap and LinkedGeoData.
+    </p>
+    <ul>
+      <li>OpenStreetMap will be used by the Angular application and the Suggestions service.</li>
+      <li>LinkedGeoData will be used by the Suggestions service in order to find in a accurate method
+        places to visit, orientation clues, possible itinerary to o specific destination based on the
+        actual parameters set from context and also on the user's preferences.</li>
+    </ul>
+  </section>
+  <section typeof="sa:APIs" id="apis">
+    <h2><span>5. </span>APIs</h2>
+    <p>
+      For each service there will be implemented different requests based on the needs of implementation:
+    </p>
+      <figure typeOf="sa:image">
+        <img src="apis.jpg" alt="APIs" width="900">
+        <figcaption style="text-align: center;">Fig. 3: APIs specification</figcaption>
+      </figure>
+    <p>
+      As an example, for the suggestions service the GET request will be implemented as fallows:
+    </p>
+      <figure typeOf="sa:image">
+        <img src="request.jpg" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of GET request</figcaption>
+      </figure>
+  </section>
+  <section typeof="sa:ExternalAPIs" id="ExternalAPIs">
+    <h2><span>6. </span>External APIs</h2>
+    <p>
+      <b>OpenStreetMap</b> is a project that creates and distributes free geographic data. OpenStreetMap represents
+      physical features on the ground (e.g., roads or buildings) using tags attached to its basic data
+      structures (its nodes, ways, and relations). Each tag describes a geographic attribute of the feature
+      being shown by that specific node, way or relation.
+      OpenStreetMap's free tagging system allows the map to include an unlimited number of attributes describing each
+      feature.
+    </p>
+    <p>
+      <b>LinkedGeoData</b> is an effort to add a spatial dimension to the Web of Data / Semantic Web. LinkedGeoData uses
+      the information collected by the OpenStreetMap project and makes it available as an RDF knowledge base according
+      to the Linked Data principles. It interlinks this data with other knowledge bases in the Linking Open Data
+      initiative.
+    </p>
+  </section>
+  <section typeof="sa:references" id="references">
+    <h2><span>7. </span>References</h2>
+    <ul>
+      <li>https://wiki.openstreetmap.org/wiki/Main_Page</li>
+      <li>http://linkedgeodata.org/</li>
+      <li>https://www.dbpedia.org/</li>
+      <li>https://schema.org/Map</li>
+      <li>https://www.programmableweb.com/category/travel/api</li>
+      <li>https://www.w3.org/TR/rdf-sparql-query/</li>
+      <li>https://thereisabotforthat.com/</li>
+    </ul>
+  </section>
+</body>
+
+</html>
