@@ -95,10 +95,15 @@
       (MySQL) and the operation on it will be done via a SPARQL request.
     </p>
     <p>
+      For extra information regarding a place we will also use data from DBpedia and Wikidata.
+    </p>
+    <p>
       Moreover, there will be used 2 external APIs: OpenStreetMap and LinkedGeoData.
     </p>
     <ul>
-      <li>OpenStreetMap will be used by the Angular application and the Suggestions service.</li>
+      <li>OpenStreetMap will be used by the Angular application and the Suggestions service in order
+        to show the map based on the current location, to show the suggestions routes and places. 
+        The suggestions will be generated using information about the users.</li>
       <li>LinkedGeoData will be used by the Suggestions service in order to find in a accurate method
         places to visit, orientation clues, possible itinerary to o specific destination based on the
         actual parameters set from context and also on the user's preferences.</li>
