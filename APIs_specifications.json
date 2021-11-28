@@ -1,0 +1,437 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "SEVIR (semantic-based virtual guide) project is a proposal of Web application that will allow clients to use the power of the cartographic Web services in order to augment the information about one or more points of interest according to user preferences and the current context.",
+    "version": "1.0.0",
+    "title": "SEVIR"
+  },
+  "host": "sevir.wade.api",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "preferences",
+      "description": "Operations about preferences"
+    },
+    {
+      "name": "suggestions",
+      "description": "Operations about suggestions"
+    },
+    {
+      "name": "social media",
+      "description": "Operations about social-media"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This will be done when a new user will be registered",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "user created"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login an user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Authentication"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "headers": {
+              "Token": {
+                "type": "string",
+                "description": "authentication token to be used by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/preferences/<username>": {
+      "get": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Get user preferences for the given username",
+        "description": "",
+        "operationId": "getUserPreferences",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Preferences"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "delete user preferences for the given username",
+        "description": "delete user preferences for the given username older than a given date",
+        "operationId": "deleteUserPreferences",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "wrong date format given"
+          }
+        }
+      }
+    },
+    "/preferences/<username>/segnificant-routes": {
+      "put": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Add user significant-route for the given username",
+        "description": "",
+        "operationId": "addSegnificantRoute:",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Route"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Route created"
+          }
+        }
+      }
+    },
+    "/preferences/<username>/touristic-attractions": {
+      "put": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Add user touristic-attraction for the given username",
+        "description": "",
+        "operationId": "addTouristicAttraction:",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "touristic attraction created"
+          }
+        }
+      }
+    },
+    "/preferences/<username>/businesses": {
+      "put": {
+        "tags": [
+          "preferences"
+        ],
+        "summary": "Add user Businesses for the given username",
+        "description": "",
+        "operationId": "addBusinesse:",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Businesse created"
+          }
+        }
+      }
+    },
+    "/suggestions": {
+      "get": {
+        "tags": [
+          "suggestions"
+        ],
+        "summary": "Get users suggestions",
+        "description": "Given a list of users, moods, health statuses it will return a route and a list o stops ",
+        "operationId": "getUsersSuggestions",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "minimum": 1,
+            "description": "The usernames of the users"
+          },
+          {
+            "in": "query",
+            "name": "mood",
+            "type": "string",
+            "description": "The moods of the users"
+          },
+          {
+            "in": "query",
+            "name": "health_status",
+            "type": "string",
+            "description": "The health statuses of the users"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sugestion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/social-media": {
+      "post": {
+        "tags": [
+          "social-media"
+        ],
+        "summary": "post an image on social-media",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "share-image",
+            "type": "file",
+            "description": "The image that will be shared on social media"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "bad file format given"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Authentication": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Autnetication"
+      }
+    },
+    "Preferences": {
+      "type": "object",
+      "properties": {
+        "segnificant_routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        },
+        "touristic_attractions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "businesses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "xml": {
+        "name": "Preferences"
+      }
+    },
+    "Route": {
+      "type": "object",
+      "properties": {
+        "places": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
+        }
+      }
+    },
+    "Place": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Sugestion": {
+      "type": "object",
+      "properties": {
+        "route": {
+          "$ref": "#/definitions/Route"
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
+        }
+      }
+    }
+  }
+}
