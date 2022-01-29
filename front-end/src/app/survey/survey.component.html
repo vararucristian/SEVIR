@@ -2,43 +2,60 @@
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-8">
             <form id="regForm">
-                <h1 id="register">Survey Form</h1>
+                <h1 id="register">Sevir</h1>
                 <div class="all-steps" id="all-steps"> 
-                    <span class="step"><fa-icon [icon]="faSitemap"></fa-icon></span> 
                     <span class="step"><i class="fa fa-map-marker"></i></span> 
-                    <span class="step"><i class="fa fa-shopping-bag"></i></span> 
-                    <span class="step"><i class="fa fa-car"></i></span> 
-                    <span class="step"><i class="fa fa-spotify"></i></span> 
-                    <span class="step"><i class="fa fa-mobile-phone"></i></span> </div>
-                <div class="tab" [hidden]="!showedSteps[0]">
+                    <span class="step"><i class="fa fa-smile-o"></i></span> 
+                    <span class="step"><i class="fa fa-child"></i></span> 
+                    <span class="step"><i class="fa fa-clock-o"></i></span> 
+                 </div>
+                <div class="tab" [hidden]="currentStep !== 0">
                     <h6>Where you want to go?</h6>
-                    <p> <input placeholder="Name..." oninput="this.className = ''" name="fname"></p>
+                    <p> <input #mapSearchField placeholder="Place..." (change) = "clearLocation()" [ngClass]="{input_error: stepsErrors[currentStep]}"></p>
                 </div>
-                <div class="tab" [hidden]="!showedSteps[1]">
-                    <h6>What's your city?</h6>
-                    <p><input placeholder="City" oninput="this.className = ''" name="dd"></p>
+                <div class="multicheck" [hidden]="currentStep !== 1">
+                    <h6>What are you interested about?</h6>
+
+                    <div class="container">
+                        <ul class="checkerList">
+                            <li *ngFor = "let interest_thing of interest_things; let i = index;">
+                              
+                                <input type="checkbox" 
+                                    (change)="addThing(interest_thing)"
+                                    id="{{'checkbox' + i}}" 
+                                    value={{interest_thing}}>
+                                <label for="{{'checkbox' + i}}">{{interest_thing}}</label>
+                            
+                            </li>
+                        </ul>
+                      
+                      </div>
+
+
                 </div>
-                <div class="tab" [hidden]="!showedSteps[2]">
-                    <h6>What's your Favourite Shopping site?</h6>
-                    <p><input placeholder="Favourite Shopping site" oninput="this.className = ''" name="email"></p>
+                <div class="tab" [hidden]="currentStep !== 2">
+                    <h6>Do you have any children with you?</h6>
+                    <div class="yesNOSection">
+                    <button (click)="setAnyKids(true)"><i class="fa fa-thumbs-up"></i> 
+                        <div>YES</div></button> 
+                    <button (click)="setAnyKids(false)"><i class="fa fa-thumbs-down"></i>
+                        <div>NO</div></button> 
+                    </div>
                 </div>
-                <div class="tab" [hidden]="!showedSteps[3]">
-                    <h6>What's your Favourite car?</h6>
-                    <p><input placeholder="Favourite car" oninput="this.className = ''" name="uname"></p>
-                </div>
-                <div class="tab" [hidden]="!showedSteps[4]">
-                    <h6>What's your Favourite Song?</h6>
-                    <p><input placeholder="Favourite Song" oninput="this.className = ''" name="uname"></p>
-                </div>
-                <div class="tab" [hidden]="!showedSteps[5]">
-                    <h6>What's your Favourite Mobile brand?</h6>
-                    <p><input placeholder="Favourite Mobile Brand" oninput="this.className = ''" name="uname"></p>
-                </div>
-                <div class="thanks-message text-center" id="text-message"> <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
-                    <h3>Thankyou for your feedback!</h3> <span>Thanks for your valuable information. It helps us to improve our services!</span>
+                <div class="tab" [hidden]="currentStep !== 3">
+                    <h6>How much time do you have?</h6>
+                    <div class="sliderSection">
+                        <h2>{{time}} hours</h2>
+                        <mat-slider class = "time_slider" min="1" max="12" step="1" [value]="time" thumbLabel aria-label="units" (change)="updateSlider($event)"></mat-slider>
+                
+                        <button id="submit" (click) = "submitSearch()">Submit</button> 
+                    </div>
                 </div>
                 <div style="overflow:auto;" id="nextprevious">
-                    <div style="float:right;"> <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i class="fa fa-angle-double-left"></i></button> <button type="button" id="nextBtn" onclick="nextPrev(1)"><i class="fa fa-angle-double-right"></i></button> </div>
+                    <div style="float:right;"> 
+                        <button [disabled] = "currentStep === 0" [ngClass]="{invalid_action: currentStep === 0}" type="button" id="prevBtn" (click)="nextPrevAction(-1)"><i class="fa fa-angle-double-left"></i></button> 
+                        <button [disabled] = "currentStep >= stepsCompleted.length - 1" [ngClass]="{invalid_action: currentStep >= stepsCompleted.length - 1}" type="button" id="nextBtn" (click)="nextPrevAction(1)"><i class="fa fa-angle-double-right"></i></button> 
+                    </div>
                 </div>
             </form>
         </div>

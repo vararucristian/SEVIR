@@ -33,10 +33,26 @@ input {
     outline: none
 }
 
-input.invalid {
-    border: 1px solid #e03a0666
+.input_error {
+    border: 1px solid #e03a0666 !important;
 }
 
+.yesNOSection {
+    text-align: center;
+    button {
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 5px;
+    }
+
+    button:nth-child(1) {
+        background-color: #044e2b;
+    }
+
+    button:nth-child(2) {
+        background-color: #4e0404;
+    }
+}
 
 button {
     background-color: #6A1B9A;
@@ -57,9 +73,15 @@ button:focus {
     outline: none !important
 }
 
-#prevBtn {
-    background-color: #bbbbbb
+.invalid_action {
+    background-color: #bbbbbb;
+    cursor: no-drop
 }
+
+.invalid_action:hover {
+    opacity: 1
+}
+
 
 .all-steps {
     text-align: center;
@@ -103,4 +125,63 @@ button:focus {
 
 .thanks-message {
     display: none
+}
+
+.container {
+    max-width: 640px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+}
+
+ul.checkerList {
+    list-style: none;
+    padding: 20px;
+}
+ul.checkerList li{
+  display: inline;
+}
+ul.checkerList li label{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .9);
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    user-select: none;
+    transition: all .2s;
+}
+
+ul.checkerList li label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+ul.checkerList li input[type="checkbox"]:checked + label {
+    border: 2px solid #6a1b9a;
+    background-color: #6a1b9a;
+    color: #fff;
+    transition: all .2s;
+}
+
+ul.checkerList li input[type="checkbox"] {
+  display: absolute;
+}
+ul.checkerList li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+ul.checkerList li input[type="checkbox"]:focus + label {
+  border: 2px solid #e9a1ff;
+}
+
+.time_slider {
+    width: 100%;
+}
+
+.sliderSection {
+    text-align: center;
+}
+
+#submit {
+    border-radius: 10px;
 }

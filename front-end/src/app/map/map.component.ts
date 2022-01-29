@@ -1,5 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
+import { CookieService } from 'ngx-cookie-service';
+import { Search } from '../search.model';
+
 
 @Component({
   selector: 'app-map',
@@ -12,15 +15,36 @@ export class MapComponent implements OnInit {
   longitude: number;
   zoom: number;
   address: string;
+  search: Search;
   private geoCoder;
+  origin: { lat: number; lng: number; };
+  destination: { lat: number; lng: number; };
 
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
+
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private cookieService: CookieService) { }
 
   ngOnInit(): void {
+    const searchData = this.cookieService.get('SearchData')
+    if (searchData) {
+      console.log(searchData);
+      this.search = JSON.parse(searchData);
+      this.destination = {
+        lat: this.search.locationToGo.latitude,
+        lng: this.search.locationToGo.longitude
+      }
+
+    }
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
+      console.log(this.origin);
+      console.log(this.destination)
     });
+
+
+
+
+
   }
 
   private setCurrentLocation() {
@@ -28,6 +52,7 @@ export class MapComponent implements OnInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+        this.origin = { lat: this.latitude, lng: this.longitude };
         this.zoom = 8;
         this.getAddress(this.latitude, this.longitude);
       });
