@@ -46,9 +46,6 @@ def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, int
                     suggestions.remove(suggestion2)
 
     random.shuffle(suggestions)
-    # for sugestion in suggestions:
-    #     distance =  helperCoord.getDistance(latitude, longitude, suggestion['latitude'], suggestion['longitude'])
-
     return suggestions[:int(nr_places)]
 
 # print("Museum: ")
