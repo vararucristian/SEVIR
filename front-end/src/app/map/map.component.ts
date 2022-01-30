@@ -27,9 +27,10 @@ export class MapComponent implements OnInit {
   suggestions: Suggestion[];
   waypoints: {location: { lat: number; lng: number; }; stopover: boolean} [];
   
+
   public markerOptions = {
     origin: {
-      infoWindow: 'Origin.',
+      infoWindow: 'Origin',
       icon: 'http://i.imgur.com/7teZKif.png',
     },
     waypoints: [],
