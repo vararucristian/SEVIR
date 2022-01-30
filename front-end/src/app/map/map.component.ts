@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Search } from '../search.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class MapComponent implements OnInit {
   destination: { lat: number; lng: number; };
 
 
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private cookieService: CookieService) { }
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _router: Router, private cookieService: CookieService) { }
 
   ngOnInit(): void {
     const searchData = this.cookieService.get('SearchData')
@@ -32,8 +33,12 @@ export class MapComponent implements OnInit {
         lat: this.search.locationToGo.latitude,
         lng: this.search.locationToGo.longitude
       }
+    }
+    else {
+      this._router.navigate([''])
 
     }
+
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;

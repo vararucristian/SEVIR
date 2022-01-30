@@ -28,6 +28,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "agm-direction": "^0.8.10",
     "bootstrap": "^5.1.3",
+    "flag-icon-css": "^4.1.7",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "ngx-cookie-service": "^12.0.3",
