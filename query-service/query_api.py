@@ -28,7 +28,7 @@ def getLinkedGeoDataPoints():
         print ((nr_hours*5.)/len(interests))
         suggestions.extend(lgd.get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, interest, (nr_hours*5.)/len(interests), distance))
 
-    return json.dumps(suggestions)
+    return json.dumps(helperCoord.orderSugestions(latitude1, longitude1, suggestions))
 
 
 @cross_origin()

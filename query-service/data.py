@@ -1,3 +1,5 @@
+import random
+
 from SPARQLWrapper import SPARQLWrapper, JSON
 import wikidata as wd
 import helperCoordinates as helperCoord
@@ -27,8 +29,8 @@ def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, int
     results = sparqlwd.query().convert()
     for result in results['results']['bindings']:
         suggestion = dict()
-        suggestion['longitude'] = result['g']['value'].split('(')[1].split(' ')[0]
-        suggestion['latitude'] = result['g']['value'].split('(')[1].split(' ')[1].split(')')[0]
+        suggestion['longitude'] = float(result['g']['value'].split('(')[1].split(' ')[0])
+        suggestion['latitude'] = float(result['g']['value'].split('(')[1].split(' ')[1].split(')')[0])
         suggestion['placeName'] = result['l']['value']
         suggestion['interest'] = interest_point_type
         try:
@@ -43,10 +45,11 @@ def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, int
                     suggestion['placeName_' + suggestion2['lang']] = suggestion2['placeName']
                     suggestions.remove(suggestion2)
 
+    random.shuffle(suggestions)
     # for sugestion in suggestions:
     #     distance =  helperCoord.getDistance(latitude, longitude, suggestion['latitude'], suggestion['longitude'])
 
-    return suggestions
+    return suggestions[:int(nr_places)]
 
 # print("Museum: ")
 # museums = get_suggestions_coordinates_by_coordinates_and_type( 27.587311, 47.155182, "TourismThing", 5)
