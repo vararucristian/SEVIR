@@ -94,34 +94,29 @@
       <figcaption style="text-align: center;">Fig. 2: Overall of the SEVIR application architecture </figcaption>
     </figure>
     <p>
-      SEVIR will be implemented as a Angular Web Application that will call 4 principal
-      services implemented using Java:
+      SEVIR is implemented as a Angular Web Application that will call a principal
+      service implemented using Python:
     </p>
     <ul>
-      <li>Accounts service: it will be used as a the users management system. </li>
-      <li>Preferences service: it will be responsible for updating and retrieving the information about
-        the user preferences.</li>
-      <li>Suggestions service: it will be responsible for generating suggestions based on user
-        preferences and context. </li>
-      <li>Social-Media service: it will be used for sharing/accessing photos, videos, reviews, advices, etc. </li>
+      <li><b>Suggestions service</b>: is responsible for generating suggestions based on user
+        preferences and context and for getting the details about each of the suggested places.
+        For generating this data it takes into consideration the preferences set by user from frontend.
+        This service will be directly called by the Angular application.
+      </li>
     </ul>
     <p>
-      The storage for both the Accounts and Preferences services will be provided by a relational database
-      (MySQL) and the operation on it will be done via a SPARQL request.
+       </b>Frontend</b> component is responsible also for getting the user's preferences and for the sharing on social media actions.
     </p>
     <p>
-      For extra information regarding a place we will also use data from DBpedia and Wikidata.
-    </p>
-    <p>
-      Moreover, there will be used 2 external APIs: OpenStreetMap and LinkedGeoData.
+      Moreover, there are used 3 external APIs: GoogleMaps, LinkedGeoData and Wikidata.
     </p>
     <ul>
-      <li>OpenStreetMap will be used by the Angular application and the Suggestions service in order
-        to show the map based on the current location, to show the suggestions routes and places. 
-        The suggestions will be generated using information about the users.</li>
-      <li>LinkedGeoData will be used by the Suggestions service in order to find in a accurate method
-        places to visit, orientation clues, possible itinerary to o specific destination based on the
-        actual parameters set from context and also on the user's preferences.</li>
+      <li>GoogleMaps is used by the Angular Application in order
+        to show the map based on the current location, to show the suggestions, the routes and the details about the places. </li>
+      <li>LinkedGeoData is used by the Suggestions Service in order to find in a accurate method
+        places to visit, possible itinerary to o specific destination based on the
+        actual parameters set from the application. The calls will come from the Angular Application.</li>
+      <li>Wikidata is used for getting extra information about the suggested places. The calls will be done via the frontend component.</li>
     </ul>
   </section>
   <section typeof="sa:APIs" id="apis">
@@ -143,6 +138,14 @@
   </section>
   <section typeof="sa:ExternalAPIs" id="ExternalAPIs">
     <h2><span>6. </span>External APIs</h2>
+    <p>
+      <b>GoogleMaps</b> will be used for showing the map with: that current location of the user, the destination point
+      and the suggested places to visit. Each suggestion will be marked on the map and additional information
+      will be displayed at click. GoogleMaps will also be used in searching the destination point and for displaying the route 
+      between the suggestion points. 
+      </p>
+    <img src="map.jpg" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of map with suggestions marked</figcaption>
     <p>
       <b>LinkedGeoData</b> is an effort to add a spatial dimension to the Web of Data / Semantic Web. LinkedGeoData uses
       the information collected by the OpenStreetMap project and makes it available as an RDF knowledge base according
@@ -176,18 +179,25 @@
       </p>
     <p>In our case it was used for getting extra details about each of the places that are generated as points of
       interest from the suggestions endpoint. For this, we created a query that searches for places that have values 
-      property P625 (coordinates) approximately equals to the latitude and longitude of the given place. It have been
-      taken into account an error (for example 0.1) for possible incoherency in the data between LinkedGeoData and Wikidata.
+      for property P625 (coordinates) approximately equals to the latitude and longitude of the given place. It have been
+      taken into account an error (for example 0.1 kilometers) for possible incoherency in the data between LinkedGeoData and Wikidata.
       Also, the language have to be provided in order to get the information in the desired format.</p>
     <img src="queryWikidata.png" alt="request" width="900">
       <figcaption style="text-align: center;">Fig. 4: Example of Wikidata query and result</figcaption>
     <p></p>
+    <p>The endpoint from Suggestion Service responsible for getting details about a place is getDetails. 
+      When calling this endpoint, as input we have to provide the coordinates of the palace in latitude and longitude, an error maximum distance
+      and the language desired for getting the results. It generates the following information about that specific place:
+      place name, an URL corresponding to the Wikidata resource of the place, and, if exists, a short place description, 
+      a image and the address.
+    </p>
     <p></p>
     <img src="getDetails.png" alt="request" width="900">
       <figcaption style="text-align: center;">Fig. 4: Example of getDetails result</figcaption>
     <p></p>
     <p>
-        <b>SPARQL ????</b>
+        For both LinkedGeoData and Wikidata, <b>SPARQL</b> was used as query language and the results were taken
+        at the front end level in  <b>JSON</b> format.
   </section>
   <section typeof="sa:references" id="references">
     <h2><span>7. </span>References</h2>
