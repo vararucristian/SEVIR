@@ -56,7 +56,7 @@
       <figcaption style="text-align: center;">Fig. 1: Usecase diagram</figcaption>
     </figure>
     <p>
-      The application might be used by a normal user with the fallowing use case scenarios:
+      Initial list of use case scenarios:
     </p>
     <ul>
       <li>Register as a new user of the application.</li>
@@ -70,6 +70,21 @@
         This action requires authentication.</li>
       <li>Share or access photos, videos, reviews, advices on/from social media. This action requires
         authentication. </li>
+    </ul>
+
+    <p>
+      List of use case scenarios for the functionalities implemented (corresponding to the actual variant of the application):
+    </p>
+    <ul>
+      <li>Search for a new place to visit by typing the name/address.</li>
+      <li>Set the personal interest points, for example: cultural or sportive attractions, shopping related places, etc.</li>
+      <li>Set whether a child will be involved in the trip. (For a smoother journey, with stops not so far from the main route)</li>
+      <li>Set the number of hours that you have available in order to visit the place. We will consider that a place can be visited in a medium time of 1 hour.</li>
+      <li>View a possible route for visiting the desired place with multiple attractions that the user is interested in and based on the time and availability to deviate from the route. On the map it will also be marked: the actual location of the user, the destination point.</li>
+      <li>See details for each of the shown attractions such as: short description, address, image.</li>
+      <li>Go back to the search engine.</li>
+      <li>Change the language of the application. It is available for romanian and english at the moment.</li>
+      <li>Share the experience with Sevir application on social media. </li>
     </ul>
   </section>
   <section id="architecture">
@@ -119,7 +134,7 @@
         <figcaption style="text-align: center;">Fig. 3: APIs specification</figcaption>
       </figure>
     <p>
-      As an example, for the suggestions service the GET request will be implemented as fallows:
+      As an example, for the suggestions service the GET request will be implemented as follows:
     </p>
       <figure typeOf="sa:image">
         <img src="request.jpg" alt="request" width="900">
@@ -129,19 +144,50 @@
   <section typeof="sa:ExternalAPIs" id="ExternalAPIs">
     <h2><span>6. </span>External APIs</h2>
     <p>
-      <b>OpenStreetMap</b> is a project that creates and distributes free geographic data. OpenStreetMap represents
-      physical features on the ground (e.g., roads or buildings) using tags attached to its basic data
-      structures (its nodes, ways, and relations). Each tag describes a geographic attribute of the feature
-      being shown by that specific node, way or relation.
-      OpenStreetMap's free tagging system allows the map to include an unlimited number of attributes describing each
-      feature.
-    </p>
-    <p>
       <b>LinkedGeoData</b> is an effort to add a spatial dimension to the Web of Data / Semantic Web. LinkedGeoData uses
       the information collected by the OpenStreetMap project and makes it available as an RDF knowledge base according
       to the Linked Data principles. It interlinks this data with other knowledge bases in the Linking Open Data
       initiative.
     </p>
+    <p>We have used this API for the Suggestions Service in the scope of generating points from the
+       map that are marked as interest points by the user. In this manner, we can query for all the results of a specific
+       type (for example museums) having a central point specified by latitude and longitude and a maximum distance 
+       of X kilometers (for example 1) as radius. A specific example together with the query result can be seen below:
+    </p>
+
+    <img src="linkedQuery.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of LinkedGeoData query</figcaption>
+        <p></p>
+        <p></p>
+    <img src="linkedResult.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of LinkedGeoData result</figcaption>
+
+    <p>The Suggestion Service at the endpoint for getting the suggestions collects all 
+      the results and creates a list with all the locations that are a interest point for the user
+      together with the place name(in both romanian and english if it is available) based on the 
+      start and the destination locations and also taking into consideration the user's preferences 
+      and needs (hours, with or without kids).</p>
+    <img src="getSuggestions.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of getSuggestions result</figcaption>
+    <p></p>
+    <p>
+      <b>Wikidata</b> is used to find items and properties that provide language-independent information about
+      entities (real-world things) in applications such as events, places, people, works of art, concepts, etc.
+      </p>
+    <p>In our case it was used for getting extra details about each of the places that are generated as points of
+      interest from the suggestions endpoint. For this, we created a query that searches for places that have values 
+      property P625 (coordinates) approximately equals to the latitude and longitude of the given place. It have been
+      taken into account an error (for example 0.1) for possible incoherency in the data between LinkedGeoData and Wikidata.
+      Also, the language have to be provided in order to get the information in the desired format.</p>
+    <img src="queryWikidata.png" alt="request" width="900">
+      <figcaption style="text-align: center;">Fig. 4: Example of Wikidata query and result</figcaption>
+    <p></p>
+    <p></p>
+    <img src="getDetails.png" alt="request" width="900">
+      <figcaption style="text-align: center;">Fig. 4: Example of getDetails result</figcaption>
+    <p></p>
+    <p>
+        <b>SPARQL ????</b>
   </section>
   <section typeof="sa:references" id="references">
     <h2><span>7. </span>References</h2>
