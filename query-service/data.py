@@ -1,8 +1,9 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import wikidata as wd
+import helperCoordinates as helperCoord
 
 
-def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, interest_point_type, distance = 1):
+def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, interest_point_type, nr_places, distance = 1):
     suggestions = []
     sparqlwd = SPARQLWrapper("http://linkedgeodata.org/sparql")
     sparqlwd.setQuery("""
@@ -29,6 +30,7 @@ def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, int
         suggestion['longitude'] = result['g']['value'].split('(')[1].split(' ')[0]
         suggestion['latitude'] = result['g']['value'].split('(')[1].split(' ')[1].split(')')[0]
         suggestion['placeName'] = result['l']['value']
+        suggestion['interest'] = interest_point_type
         try:
             suggestion['lang'] = result['l']['xml:lang']
         except:
@@ -40,6 +42,10 @@ def get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, int
                 if 'lang' in suggestion2.keys():
                     suggestion['placeName_' + suggestion2['lang']] = suggestion2['placeName']
                     suggestions.remove(suggestion2)
+
+    # for sugestion in suggestions:
+    #     distance =  helperCoord.getDistance(latitude, longitude, suggestion['latitude'], suggestion['longitude'])
+
     return suggestions
 
 # print("Museum: ")
