@@ -5,10 +5,14 @@ import data as lgd
 import wikidata as wkd
 import helperCoordinates as helperCoord
 from flask import request
+from flask_cors import CORS, cross_origin
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
+
+@cross_origin()
 @app.route('/getSuggestions/', methods=['GET'])
 def getLinkedGeoDataPoints():
     suggestions =[]
@@ -26,6 +30,8 @@ def getLinkedGeoDataPoints():
 
     return json.dumps(suggestions)
 
+
+@cross_origin()
 @app.route('/getDetails/', methods=['GET'])
 def getWikidataDetails():
     latitude = request.args.get('lat')

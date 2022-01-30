@@ -3,6 +3,7 @@ import { MapsAPILoader } from '@agm/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Search } from '../search.model';
 import { Router } from '@angular/router';
+import { SuggestionsService } from '../services/suggestions.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class MapComponent implements OnInit {
   destination: { lat: number; lng: number; };
 
 
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _router: Router, private cookieService: CookieService) { }
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _router: Router, private cookieService: CookieService, private suggestionService: SuggestionsService) { }
 
   ngOnInit(): void {
     const searchData = this.cookieService.get('SearchData')
@@ -36,7 +37,6 @@ export class MapComponent implements OnInit {
     }
     else {
       this._router.navigate([''])
-
     }
 
     this.mapsAPILoader.load().then(() => {
@@ -45,11 +45,7 @@ export class MapComponent implements OnInit {
       console.log(this.origin);
       console.log(this.destination)
     });
-
-
-
-
-
+    
   }
 
   private setCurrentLocation() {
@@ -60,6 +56,10 @@ export class MapComponent implements OnInit {
         this.origin = { lat: this.latitude, lng: this.longitude };
         this.zoom = 8;
         this.getAddress(this.latitude, this.longitude);
+
+        this.suggestionService.getSuggestions(this.latitude, this.longitude, this.destination.lat, this.destination.lng, this.search.things[0]).subscribe(suggsetions => {
+          console.log("suggestions", suggsetions);
+        })
       });
     }
   }

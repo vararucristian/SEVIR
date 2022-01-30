@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
@@ -34,11 +35,11 @@ import { LanguageComponent } from './language/language.component';
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
+    HttpClientModule,
     MatInputModule
   ],
   providers: [Search],
   declarations: [ AppComponent, MapComponent, SurveyComponent, LanguageComponent ],
   bootstrap: [ AppComponent, MapComponent ]
 })
-export class AppModule {
-}
+export class AppModule {}
