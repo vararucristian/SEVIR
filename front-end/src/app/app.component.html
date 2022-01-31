@@ -1,3 +1,8 @@
+<div>
+    <h1>{{ 'demo.title' | translate }}</h1>
+    <p>{{'demo.text' | translate}}</p>
+</div>
+
 <app-language></app-language>
 <app-survey-button *ngIf="this.router.url === '/map'"></app-survey-button>
 <router-outlet></router-outlet>

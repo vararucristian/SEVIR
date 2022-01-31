@@ -8,8 +8,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
-// import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
-// import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
@@ -19,6 +17,10 @@ import { RouterModule } from '@angular/router';
 import { Search } from './search.model';
 import { LanguageComponent } from './language/language.component';
 import { SurveyButtonComponent } from './survey-button/survey-button.component';
+
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient} from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -40,13 +42,21 @@ import { SurveyButtonComponent } from './survey-button/survey-button.component';
     MatFormFieldModule,
     HttpClientModule,
     MatInputModule,
-    // ShareButtonsModule.withConfig({
-    //   debug: true
-    // }),
-    // ShareIconsModule
+    HttpClientModule,
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        }
+    })
   ],
   providers: [Search],
   declarations: [ AppComponent, MapComponent, SurveyComponent, LanguageComponent, SurveyButtonComponent ],
   bootstrap: [ AppComponent, MapComponent ]
 })
 export class AppModule {}
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

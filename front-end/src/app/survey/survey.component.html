@@ -45,8 +45,8 @@
                 <div class="tab" [hidden]="currentStep !== 3">
                     <h6>How much time do you have?</h6>
                     <div class="sliderSection">
-                        <h2>{{time}} hours</h2>
-                        <mat-slider class = "time_slider" min="1" max="12" step="1" [value]="time" thumbLabel aria-label="units" (change)="updateSlider($event)"></mat-slider>
+                        <h2>{{search.time}} hours</h2>
+                        <mat-slider class = "time_slider" min="1" max="12" step="1" [value]="search.time" thumbLabel aria-label="units" (change)="updateSlider($event)"></mat-slider>
                 
                         <button id="submit" (click) = "submitSearch()">Submit</button> 
                     </div>

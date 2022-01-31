@@ -18,7 +18,7 @@ export class SuggestionsService {
 
   public getSuggestions(lat1: number, long1: number, lat2: number, long2: number, search: Search) {
     
-    let searchString =`http://127.0.0.1:5000/getSuggestions/?lat1=${lat1}&long1=${long1}&lat2=${lat2}&long2=${long2}&hours=${search.time}`;
+    let searchString =`http://127.0.0.1:5000/getSuggestions/?lat1=${lat1}&long1=${long1}&lat2=${lat2}&long2=${long2}&hours=${search.time}&child=${search.anyKids}`;
     search.things.forEach(interest => {
       searchString = searchString.concat(`&interest=${interest}`);
     })

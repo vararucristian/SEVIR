@@ -1,31 +1,38 @@
 <div class="container">
   <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"></agm-marker>
     
     <agm-direction 
       [origin]="origin" 
       [destination]="destination"
       [waypoints] = "waypoints"
-      [renderOptions]="renderOptions"
-      [markerOptions]="markerOptions"
-      [optimizeWaypoints]="false">
+      >
     </agm-direction>>    
 
+    <agm-marker *ngFor="let suggestion of suggestions" 
+    [latitude]="suggestion.latitude" 
+    [longitude]="suggestion.longitude"
+    >
+        
+      <agm-info-window [disableAutoPan]="false" #infoWindow>
+        <h5>{{suggestion.details.placeLabel && !suggestion.details.placeLabel.startsWith('Q') ? suggestion.details.placeLabel : this.getPlaceNameByLanguage(suggestion)}}</h5>
+          <h6>{{suggestion.details.placeDescription ? suggestion.details.placeDescription : ""}} </h6>
+          <h6>{{suggestion.details.address ? suggestion.details.address : ""}} </h6>
+          <a href = "{{suggestion.details.wikidataURL}}" *ngIf="suggestion.details.wikidataURL">wikidataURL</a>
+          <br><img src ="{{suggestion.details.image}}" width = "300px" *ngIf="suggestion.details.image"/>
 
-     <!-- <agm-marker [latitude]="47.155182" [longitude]="27.587311" [label]="{color: 'blue', text: 'start'}"></agm-marker>
-     <agm-marker [latitude]="47.16484" [longitude]="27.589402" [label]="{color: 'blue', text: '1'}"></agm-marker>
-     <agm-marker [latitude]="47.16690826416" [longitude]="27.584230422974" [label]="{color: 'blue', text: '2'}"></agm-marker>
-     <agm-marker [latitude]="47.17343" [longitude]="27.580547" [label]="{color: 'blue', text: '3'}"></agm-marker>
-     <agm-marker [latitude]="47.1631628" [longitude]="27.5602447" [label]="{color: 'blue', text: '4'}"></agm-marker>
-     <agm-marker [latitude]="47.17345" [longitude]="27.565" [label]="{color: 'blue', text: 'finish'}"></agm-marker> -->
-
-
+    </agm-info-window>
+    </agm-marker>
 
   </agm-map>
 
 
-  <!-- <h5>Address: {{address}}</h5>
-  <div>Latitude: {{latitude}}</div>
-  <div>Longitude: {{longitude}}</div> -->
+  <script>
+    sharon();
+  </script>
 
+<div class="shareon" data-url="https://lh3.googleusercontent.com/pw/AM-JKLVgtpBla_TnE8qCD2xbkoCc72G-8Ov_und2JafBmmrjVWxu8EjHI63FBVO_5R2mNPRhDRYrbYzD6g_L2FGATFSb2eZq8lm7-haTynl7JgffGujs2_7231wqFtYZkzS6y2T7OwvywF6uXZgsi8XjaPsatA=w562-h550-no?authuser=0">
+  <a class="facebook" data-text= "Hello" data-title="just got a new trip to ">facebook</a>
+  <a class="pinterest" data-media="https://lh3.googleusercontent.com/pw/AM-JKLVgtpBla_TnE8qCD2xbkoCc72G-8Ov_und2JafBmmrjVWxu8EjHI63FBVO_5R2mNPRhDRYrbYzD6g_L2FGATFSb2eZq8lm7-haTynl7JgffGujs2_7231wqFtYZkzS6y2T7OwvywF6uXZgsi8XjaPsatA=w562-h550-no?authuser=0">
+    Pinterest</a>
+</div>
 </div>

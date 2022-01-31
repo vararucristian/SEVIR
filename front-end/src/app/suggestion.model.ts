@@ -1,3 +1,5 @@
+import { Details } from "./details.model";
+
 export class Suggestion {
     longitude: number;
     latitude: number;
@@ -5,4 +7,5 @@ export class Suggestion {
     interest: string;
     placeName_en: string;
     distance: number;
+    details: Details;
 }

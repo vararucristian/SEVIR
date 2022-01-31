@@ -25,8 +25,10 @@ export class MapComponent implements OnInit {
   origin: { lat: number; lng: number; };
   destination: { lat: number; lng: number; };
   suggestions: Suggestion[];
-  waypoints: {location: { lat: number; lng: number; }; stopover: boolean} [];
-  
+  icon = "https://imgur.com/niEzEHT";
+
+  waypoints: { location: { lat: number; lng: number; }; stopover: boolean }[];
+
 
   public markerOptions = {
     origin: {
@@ -40,7 +42,7 @@ export class MapComponent implements OnInit {
     },
   };
 
-  
+
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private _router: Router, private cookieService: CookieService, private suggestionService: SuggestionsService) { }
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class MapComponent implements OnInit {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
     });
-    
+
   }
 
   private setCurrentLocation() {
@@ -73,7 +75,7 @@ export class MapComponent implements OnInit {
         this.getAddress(this.latitude, this.longitude);
 
         this.suggestionService.getSuggestions(this.latitude, this.longitude, this.destination.lat, this.destination.lng, this.search).subscribe(suggestions => {
-          this.suggestions =  suggestions as Suggestion[];
+          this.suggestions = suggestions as Suggestion[];
 
           this.waypoints = this.suggestions.map(suggestion => {
             return {
@@ -81,48 +83,29 @@ export class MapComponent implements OnInit {
                 lat: suggestion.latitude,
                 lng: suggestion.longitude
               },
-              stopover: false
+              stopover: true
             }
 
           });
 
-         this.setWaypointsOptions();
+          this.setWaypointsOptions();
 
         })
       });
     }
   }
 
-  getPlaceNameByLanguage(suggestion : Suggestion) {
-    return localStorage && localStorage.language === 'en' && suggestion.placeName_en? suggestion.placeName_en : suggestion.placeName;
+  getPlaceNameByLanguage(suggestion: Suggestion) {
+    return localStorage && localStorage.language === 'en' && suggestion.placeName_en ? suggestion.placeName_en : suggestion.placeName;
   }
 
   private setWaypointsOptions() {
-    this.markerOptions.waypoints = this.suggestions.map(suggestion => {
-      let waypointOption = {
-          infoWindow: "",
-          icon: 'http://i.imgur.com/7teZKif.png',
-        };
+    this.suggestions.forEach(suggestion => {
       this.suggestionService.getDetails(suggestion.latitude, suggestion.longitude, 0.05, localStorage && localStorage.language || 'en').subscribe(details => {
-        let pointDetails = details as Details
-        let detailsString = `
-        <h5>${pointDetails.placeLabel && !pointDetails.placeLabel.startsWith('Q') ? pointDetails.placeLabel :this.getPlaceNameByLanguage(suggestion)}<h5>
-          <h6>${pointDetails.placeDescription ? pointDetails.placeDescription : ""} <h6>
-          <h6>${pointDetails.address ? pointDetails.address : ""} <h6>
-          <h6>${pointDetails.wikidataURL ? "<a href =" + pointDetails.wikidataURL  + "> wikiData </a>" : ""} <h6>
-          <h6>${pointDetails.image ? "<a href =" + pointDetails.image  + "> img </a>" : ""} <h6>
-
-          ${pointDetails.image ? "<img src =" + pointDetails.image  + "/>" : ""} 
-        `
-
-        waypointOption.infoWindow = detailsString;
-
-
+        suggestion.details = details as Details
       })
-
-      return waypointOption;
     })
-    console.log(this.markerOptions)
+    console.log(this.suggestions)
   }
 
   getAddress(latitude, longitude) {
@@ -145,6 +128,6 @@ export class MapComponent implements OnInit {
 
   public renderOptions = {
     suppressMarkers: true,
-}
+  }
 
 }

@@ -12,15 +12,15 @@ import { Router } from '@angular/router';
 export class SurveyComponent implements OnInit {
   @ViewChild('mapSearchField') searchField: ElementRef
   faSitemap = faSitemap;
-  anyKids = false;
-
   interest_things = ["Museum", "Shop", "Amenity", "HistoricThing", "Leisure", "TourismThing", "SportThing", "PublicTransportThing", "Place"];
   stepsCompleted = [false, true, true, true]
   stepsErrors = [false, false, false, false]
   currentStep = 0;
-  time = 1;
-
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private cookieService: CookieService, private _router: Router, private search: Search) { }
+  
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private cookieService: CookieService, private _router: Router, public search: Search) { 
+    search.time = 1;
+    search.anyKids = false;
+  }
 
   ngOnInit(): void {
     this.mapsAPILoader.load().then(() => {
@@ -79,17 +79,22 @@ export class SurveyComponent implements OnInit {
     } else {
       this.search.things.push(thing);
     }
-    
+    if(this.search.things.length === 0) {
+      this.stepsCompleted[1] = false;
+    } else {
+      this.stepsCompleted[1] = true;
+    }
+
     console.log("this.search.things", this.search.things);
   }
 
   public setAnyKids(anyKids:boolean) : void {
-    this.anyKids = anyKids;
+    this.search.anyKids = anyKids;
     this.nextPrevAction(1);
   }
 
 public updateSlider(event) :void {
-  this.time = event.value;
+  this.search.time = event.value;
 }
 
 public submitSearch() : void {
