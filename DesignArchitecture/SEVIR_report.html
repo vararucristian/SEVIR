@@ -106,7 +106,24 @@
     </ul>
     <p>
        </b>Frontend</b> component is responsible also for getting the user's preferences and for the sharing on social media actions.
-    </p>
+       <br> The frontent is implemented using Angular 10 and it has two major component:
+       <ul>
+         <li>
+           The survey component where the user is able to add information about the place trip he wants to simulate like:
+           <ol>
+            <li>The place where he wants to go</li>
+            <li>Things that he is interested about when he is traveling</li>
+            <li>The presence of any child</li>
+            <li>How much time he have for stops</li>
+          </ol> 
+         </li>
+         <li>The map component where the user will be able to see the generated route for his trip including also the stops and some extra information about the places.</li>
+       </ul>
+       <ul>
+       <li> The application also has support for translating the page content for Romanian and English. This feature is implemented using i18n standards and @ngx-translate.</li>
+       <li> The application also supports sharing an image of the map on two social media platforms: Facebook and Pinterest. This was implemented using sharon library.</li>
+      </ul>
+      </p>
     <p>
       Moreover, there are used 3 external APIs: GoogleMaps, LinkedGeoData and Wikidata.
     </p>
@@ -115,8 +132,8 @@
         to show the map based on the current location, to show the suggestions, the routes and the details about the places. </li>
       <li>LinkedGeoData is used by the Suggestions Service in order to find in a accurate method
         places to visit, possible itinerary to o specific destination based on the
-        actual parameters set from the application. The calls will come from the Angular Application.</li>
-      <li>Wikidata is used for getting extra information about the suggested places. The calls will be done via the frontend component.</li>
+        actual parameters set from the application. The calls will come from the Python API.</li>
+      <li>Wikidata is used for getting extra information about the suggested places. The calls will be done via the Python API.</li>
     </ul>
   </section>
   <section typeof="sa:APIs" id="apis">
@@ -139,13 +156,22 @@
   <section typeof="sa:ExternalAPIs" id="ExternalAPIs">
     <h2><span>6. </span>External APIs</h2>
     <p>
-      <b>GoogleMaps</b> will be used for showing the map with: that current location of the user, the destination point
-      and the suggested places to visit. Each suggestion will be marked on the map and additional information
+      <b>GoogleMaps</b> will be used for showing the map with: 
+      <ul>
+        <li>The current location of the user</li>
+        <li>The destination point</li>
+        <li>The suggested places to visit</li>
+      </ul> 
+      Each suggestion will be marked on the map and additional information
       will be displayed at click. GoogleMaps will also be used in searching the destination point and for displaying the route 
-      between the suggestion points. 
+      between the suggested points. 
       </p>
     <img src="map.jpg" alt="request" width="900">
         <figcaption style="text-align: center;">Fig. 4: Example of map with suggestions marked</figcaption>
+    <br>
+    <img src="map2.jpg" alt="suggestions" width="900">
+        <figcaption style="text-align: center;">Fig. 4: Example of an open suggestion</figcaption>
+    <br>
     <p>
       <b>LinkedGeoData</b> is an effort to add a spatial dimension to the Web of Data / Semantic Web. LinkedGeoData uses
       the information collected by the OpenStreetMap project and makes it available as an RDF knowledge base according

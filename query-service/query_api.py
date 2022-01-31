@@ -28,11 +28,9 @@ def getLinkedGeoDataPoints():
 
     latitude, longitude, distance = helperCoord.getMidPoint(latitude1, longitude1, latitude2, longitude2)
     if child == "false" :
-        print("daaa")
         for interest in interests:
             suggestions.extend(lgd.get_suggestions_coordinates_by_coordinates_and_type(longitude, latitude, interest, math.ceil(nr_hours/len(interests)), distance))
     else:
-        print("nuuu")
         latitudeMid1, longitudeMid1, distance1 = helperCoord.getMidPoint(latitude1, longitude1, latitude, longitude)
         latitudeMid2, longitudeMid2, distance2 = helperCoord.getMidPoint(latitude, longitude, latitude2, longitude2)
 
