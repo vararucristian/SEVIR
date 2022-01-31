@@ -1,9 +1,7 @@
 <mat-form-field appearance="outline">
     <mat-icon matPrefix><span class="flag-icon flag-icon-{{flag}} flag-icon-squared"></span></mat-icon>
     <select matNativeControl required (change)="languageChanged($event)" [value]= "language">
-        <option value="en">English </option>
-        <option value="ro">Romanian</option>
+        <option value="en">{{ 'language.en' | translate }} </option>
+        <option value="ro">{{ 'language.ro' | translate }}</option>
     </select>
-    
-  <mat-hint>Language</mat-hint>
 </mat-form-field>

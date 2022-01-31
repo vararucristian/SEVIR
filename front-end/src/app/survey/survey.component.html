@@ -10,11 +10,11 @@
                     <span class="step"><i class="fa fa-clock-o"></i></span> 
                  </div>
                 <div class="tab" [hidden]="currentStep !== 0">
-                    <h6>Where you want to go?</h6>
-                    <p> <input #mapSearchField placeholder="Place..." (change) = "clearLocation()" [ngClass]="{input_error: stepsErrors[currentStep]}"></p>
+                    <h6>{{ 'survey.whereTo.question' | translate }}</h6>
+                    <p> <input #mapSearchField placeholder="{{ 'survey.whereTo.placeholder' | translate }}" (change) = "clearLocation()" [ngClass]="{input_error: stepsErrors[currentStep]}"></p>
                 </div>
                 <div class="multicheck" [hidden]="currentStep !== 1">
-                    <h6>What are you interested about?</h6>
+                    <h6>{{ 'survey.interestIn.question' | translate }}</h6>
 
                     <div class="container">
                         <ul class="checkerList">
@@ -24,7 +24,9 @@
                                     (change)="addThing(interest_thing)"
                                     id="{{'checkbox' + i}}" 
                                     value={{interest_thing}}>
-                                <label for="{{'checkbox' + i}}">{{interest_thing}}</label>
+                                <label for="{{'checkbox' + i}}">
+                                    {{ 'survey.interestIn.interests.' + interest_thing | translate }}
+                                    </label>
                             
                             </li>
                         </ul>
@@ -34,18 +36,18 @@
 
                 </div>
                 <div class="tab" [hidden]="currentStep !== 2">
-                    <h6>Do you have any children with you?</h6>
+                    <h6>{{ 'survey.anyChild.question' | translate }}</h6>
                     <div class="yesNOSection">
                     <button (click)="setAnyKids(true)"><i class="fa fa-thumbs-up"></i> 
-                        <div>YES</div></button> 
+                        <div>{{ 'survey.anyChild.response.yes' | translate }}</div></button> 
                     <button (click)="setAnyKids(false)"><i class="fa fa-thumbs-down"></i>
-                        <div>NO</div></button> 
+                        <div>{{ 'survey.anyChild.response.no' | translate }}</div></button> 
                     </div>
                 </div>
                 <div class="tab" [hidden]="currentStep !== 3">
-                    <h6>How much time do you have?</h6>
+                    <h6>{{ 'survey.time.question' | translate }}</h6>
                     <div class="sliderSection">
-                        <h2>{{search.time}} hours</h2>
+                        <h2>{{search.time}} {{ 'survey.time.unit' | translate }}</h2>
                         <mat-slider class = "time_slider" min="1" max="12" step="1" [value]="search.time" thumbLabel aria-label="units" (change)="updateSlider($event)"></mat-slider>
                 
                         <button id="submit" (click) = "submitSearch()">Submit</button> 

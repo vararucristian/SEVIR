@@ -1,6 +1,42 @@
 {
-    "demo": {
-        "title": "Demo traducere",
-        "text": "Aceasta e o demonstartie ... "
+    "language": {
+        "en": "Engleză",
+        "ro": "Română"
+    },
+
+    "survey": {
+        "whereTo" : {
+            "question": "Unde vrei să mergi?",
+            "placeholder": "Destinație..."
+        },
+        "interestIn" : {
+            "question": "Ce te interesează?",
+            "interests": {
+                "Museum" : "Muzee",
+                "Shop" : "Cumpărături",
+                "Amenity": "Atracții",
+                "HistoricThing": "Istorie",
+                "Leisure": "Relaxare",
+                "TourismThing": "Turism",
+                "SportThing": "Sporturi"
+            }
+        },
+        "anyChild" : {
+            "question" : "Ai copii cu tine?",
+            "response" :{
+                "yes": "DA",
+                "no": "NU"
+            }
+        },
+
+        "time" : {
+            "question": "Cât timp ai la dispoziție?",
+            "unit": "ore"
+        }
+    },
+
+    "surveyButton" : {
+        "label": "Caută altă locație"
     }
+
 }

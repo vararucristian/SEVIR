@@ -1,6 +1,42 @@
 {
-    "demo": {
-        "title": "Translation demo",
-        "text": "This is a simple demonstration app for ngx-translate"
+    "language": {
+        "en": "English",
+        "ro": "Romanian"
+    },
+
+    "survey": {
+        "whereTo" : {
+            "question": "Where do you want to go?",
+            "placeholder": "Place..."
+        },
+        "interestIn" : {
+            "question": "What are you interested about?",
+            "interests": {
+                "Museum" : "Museums",
+                "Shop" : "Shopping",
+                "Amenity": "Attractions",
+                "HistoricThing": "History",
+                "Leisure": "Relaxation",
+                "TourismThing": "Tourism",
+                "SportThing": "Sports"
+            }
+        },
+        "anyChild" : {
+            "question" : "Do you have any child with you?",
+            "response" :{
+                "yes": "YES",
+                "no": "NO"
+            }
+        },
+
+        "time" : {
+            "question": "How much time do you have?",
+            "unit": "hours"
+        }
+    },
+
+    "surveyButton" : {
+        "label": "Search for other location"
     }
+
 }

@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 export class SurveyComponent implements OnInit {
   @ViewChild('mapSearchField') searchField: ElementRef
   faSitemap = faSitemap;
-  interest_things = ["Museum", "Shop", "Amenity", "HistoricThing", "Leisure", "TourismThing", "SportThing", "PublicTransportThing", "Place"];
-  stepsCompleted = [false, true, true, true]
+  interest_things = ["Museum", "Shop", "Amenity", "HistoricThing", "Leisure", "TourismThing", "SportThing"];
+  stepsCompleted = [false, false, true, true]
   stepsErrors = [false, false, false, false]
   currentStep = 0;
   
