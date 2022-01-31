@@ -25,8 +25,7 @@ export class MapComponent implements OnInit {
   origin: { lat: number; lng: number; };
   destination: { lat: number; lng: number; };
   suggestions: Suggestion[];
-  icon = "https://imgur.com/niEzEHT";
-
+  
   waypoints: { location: { lat: number; lng: number; }; stopover: boolean }[];
 
 
