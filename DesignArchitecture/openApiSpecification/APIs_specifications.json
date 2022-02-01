@@ -32,6 +32,7 @@
   "paths": {
     "/user": {
       "post": {
+        "deprecated": true,
         "tags": [
           "user"
         ],
@@ -61,6 +62,7 @@
     },
     "/user/login": {
       "post": {
+        "deprecated": true,
         "tags": [
           "user"
         ],
@@ -107,6 +109,7 @@
     },
     "/user/logout": {
       "get": {
+        "deprecated": true,
         "tags": [
           "user"
         ],
@@ -126,6 +129,7 @@
     },
     "/preferences/<username>": {
       "get": {
+        "deprecated": true,
         "tags": [
           "preferences"
         ],
@@ -146,6 +150,7 @@
         }
       },
       "delete": {
+        "deprecated": true,
         "tags": [
           "preferences"
         ],
@@ -168,6 +173,7 @@
     },
     "/preferences/<username>/segnificant-routes": {
       "put": {
+        "deprecated": true,
         "tags": [
           "preferences"
         ],
@@ -196,6 +202,7 @@
     },
     "/preferences/<username>/touristic-attractions": {
       "put": {
+        "deprecated": true,
         "tags": [
           "preferences"
         ],
@@ -224,6 +231,7 @@
     },
     "/preferences/<username>/businesses": {
       "put": {
+        "deprecated": true,
         "tags": [
           "preferences"
         ],
@@ -256,7 +264,7 @@
           "suggestions"
         ],
         "summary": "Get users suggestions",
-        "description": "Given a list of users, moods, health statuses it will return a route and a list o stops ",
+        "description": "Given a list of interests, a start point, a destination, a number of hours and the presence of any child it will return list o stops",
         "operationId": "getUsersSuggestions",
         "produces": [
           "application/json"
@@ -264,22 +272,58 @@
         "parameters": [
           {
             "in": "query",
-            "name": "username",
+            "name": "lat1",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The latitude of the start point"
+          },
+          {
+            "in": "query",
+            "name": "long1",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The longitude of the start point"
+          },
+          {
+            "in": "query",
+            "name": "lat2",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The latitude of the destination point"
+          },
+          {
+            "in": "query",
+            "name": "long2",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The longitude of the destination point"
+          },
+          {
+            "in": "query",
+            "name": "hours",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The number of hours the user wants to spent on stops"
+          },
+          {
+            "in": "query",
+            "name": "child",
+            "type": "boolean",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "True if the users is traveling with kids, else false"
+          },
+          {
+            "in": "query",
+            "name": "interest",
             "type": "string",
             "minimum": 1,
-            "description": "The usernames of the users"
-          },
-          {
-            "in": "query",
-            "name": "mood",
-            "type": "string",
-            "description": "The moods of the users"
-          },
-          {
-            "in": "query",
-            "name": "health_status",
-            "type": "string",
-            "description": "The health statuses of the users"
+            "description": "The type of places the user is interested in"
           }
         ],
         "responses": {
@@ -295,8 +339,71 @@
         }
       }
     },
+    "/details": {
+      "get": {
+        "tags": [
+          "suggestions"
+        ],
+        "summary": "Get location details",
+        "description": "Given a point it will return the details about the place",
+        "operationId": "getDetails",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The latitude of the  point"
+          },
+          {
+            "in": "query",
+            "name": "long",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The longitude of the  point"
+          },
+          {
+            "in": "query",
+            "name": "dist",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The radius of the area to search in"
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "type": "string",
+            "minimum": 1,
+            "maximum": 1,
+            "description": "The preffered language for the informations"
+          },
+          {
+            "in": "query",
+            "name": "interest",
+            "type": "string",
+            "minimum": 1,
+            "description": "The type of places the user is interested in"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Detail"
+            }
+          }
+        }
+      }
+    },
     "/social-media": {
       "post": {
+        "deprecated": true,
         "tags": [
           "social-media"
         ],
@@ -430,6 +537,35 @@
           "items": {
             "$ref": "#/definitions/Place"
           }
+        }
+      }
+    },
+    "Detail": {
+      "type": "object",
+      "properties": {
+        "wikidataURL": {
+          "type": "string"
+        },
+        "placeLabel": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "distance": {
+          "type": "number"
+        },
+        "placeDescrption": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
         }
       }
     }
