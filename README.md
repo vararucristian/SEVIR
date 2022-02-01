@@ -10,7 +10,7 @@ This repo represent an implementation of the project SEVIR (semantic-based virtu
 - start the query-api:
 ```
 cd query-service
-python query_api.pi
+python query_api.py
 ```
 - run the front-ent. The frontend is implemented on angular@10 so will need to install angular@10 first:
 ```
@@ -18,6 +18,7 @@ cd front-end
 npm install @angular/cli@10
 ng serve
 ```
+- open application navigating to "localhost:4200" in your browser.
 
 
 
