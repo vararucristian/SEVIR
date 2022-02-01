@@ -105,8 +105,9 @@
       </li>
     </ul>
     <p>
-       </b>Frontend</b> component is responsible also for getting the user's preferences and for the sharing on social media actions.
+       <b>Frontend</b> component is responsible also for getting the user's preferences and for the sharing on social media actions.
        <br> The frontent is implemented using Angular 10 and it has two major component:
+    </p>
        <ul>
          <li>
            The survey component where the user is able to add information about the place trip he wants to simulate like:
@@ -122,8 +123,7 @@
        <ul>
        <li> The application also has support for translating the page content for Romanian and English. This feature is implemented using i18n standards and @ngx-translate.</li>
        <li> The application also supports sharing an image of the map on two social media platforms: Facebook and Pinterest. This was implemented using sharon library.</li>
-      </ul>
-      </p>
+       </ul>
     <p>
       Moreover, there are used 3 external APIs: GoogleMaps, LinkedGeoData and Wikidata.
     </p>
@@ -139,7 +139,34 @@
   <section typeof="sa:APIs" id="apis">
     <h2><span>5. </span>APIs</h2>
     <p>
-      For each service there will be implemented different requests based on the needs of implementation:
+      The main API of the application has 2 endpoints: one for Suggestions and one for Details and it is implemented using Python flask.
+      <br>
+    </p>
+      <ul>
+        <li>The Suggestion endpoint takes as parameters:
+          <ul>
+            <li>two places specified by latitude and longitude (start and destination)</li>
+            <li>a list of interest point types for the user (museum, shopping, etc.)</li>
+            <li>a value specifying if the user wants to take a child on his trip</li>
+            <li>a value representing how much hours he have for visiting places.</li>
+          </ul>
+          It is returning a list that contains multiple places that are suggested to visit specified by: latitude and longitude, place name and place type.
+          The generation is done taking into consideration the time available (a hour is the medium time to visit a place),
+          if any kids are involved (if yes, the route suggested will not deviate so much from the main route; we implemented this
+          by dividing the total distance in 4 and searching for places to visit in smaller areas that are near to the main route).
+          The list of interest is used for searching specific types of places for each of the user's interest points.
+          </li>
+          <li>The Details endpoint takes as parameters:
+            <ul>
+              <li>a place specified by latitude and longitude</li>
+              <li>a maximum distance for searching the place in</li>
+              <li>the language desired for getting the information</li>
+            </ul>
+            It is returning a JSON object that contains multiple information about the place specified such as: place name, 
+            place address, image, etc.
+      </ul>
+    <p>
+      In the next chapter you can seen an example of call for each of them.
     </p>
       <figure typeOf="sa:image">
         <img src="apis.jpg" alt="APIs" width="900">
@@ -156,21 +183,27 @@
   <section typeof="sa:ExternalAPIs" id="ExternalAPIs">
     <h2><span>6. </span>External APIs</h2>
     <p>
-      <b>GoogleMaps</b> will be used for showing the map with: 
+      <b>GoogleMaps</b> will be used for showing the map with:
+    </p> 
       <ul>
         <li>The current location of the user</li>
         <li>The destination point</li>
         <li>The suggested places to visit</li>
       </ul> 
+      <p>
       Each suggestion will be marked on the map and additional information
       will be displayed at click. GoogleMaps will also be used in searching the destination point and for displaying the route 
       between the suggested points. 
       </p>
-    <img src="map.jpg" alt="request" width="900">
-        <figcaption style="text-align: center;">Fig. 4: Example of map with suggestions marked</figcaption>
+      <figure typeOf="sa:image">
+        <img src="map.jpg" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 5: Example of map with suggestions marked</figcaption>
+      </figure>
     <br>
-    <img src="map2.jpg" alt="suggestions" width="900">
-        <figcaption style="text-align: center;">Fig. 4: Example of an open suggestion</figcaption>
+      <figure typeOf="sa:image">
+        <img src="map2.jpg" alt="suggestions" width="900">
+        <figcaption style="text-align: center;">Fig. 6: Example of an open suggestion</figcaption>
+      </figure>
     <br>
     <p>
       <b>LinkedGeoData</b> is an effort to add a spatial dimension to the Web of Data / Semantic Web. LinkedGeoData uses
@@ -183,21 +216,25 @@
        type (for example museums) having a central point specified by latitude and longitude and a maximum distance 
        of X kilometers (for example 1) as radius. A specific example together with the query result can be seen below:
     </p>
-
-    <img src="linkedQuery.png" alt="request" width="900">
-        <figcaption style="text-align: center;">Fig. 4: Example of LinkedGeoData query</figcaption>
-        <p></p>
-        <p></p>
-    <img src="linkedResult.png" alt="request" width="900">
-        <figcaption style="text-align: center;">Fig. 4: Example of LinkedGeoData result</figcaption>
+    <figure typeOf="sa:image">
+        <img src="linkedQuery.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 7: Example of LinkedGeoData query</figcaption>
+    </figure>
+    <br><br>
+    <figure typeOf="sa:image">
+        <img src="linkedResult.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 8: Example of LinkedGeoData result</figcaption>
+    </figure>
 
     <p>The Suggestion Service at the endpoint for getting the suggestions collects all 
       the results and creates a list with all the locations that are a interest point for the user
       together with the place name(in both romanian and english if it is available) based on the 
       start and the destination locations and also taking into consideration the user's preferences 
       and needs (hours, with or without kids).</p>
-    <img src="getSuggestions.png" alt="request" width="900">
-        <figcaption style="text-align: center;">Fig. 4: Example of getSuggestions result</figcaption>
+      <figure typeOf="sa:image">
+        <img src="getSuggestions.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 9: Example of Suggestions result</figcaption>
+      </figure>
     <p></p>
     <p>
       <b>Wikidata</b> is used to find items and properties that provide language-independent information about
@@ -208,19 +245,23 @@
       for property P625 (coordinates) approximately equals to the latitude and longitude of the given place. It have been
       taken into account an error (for example 0.1 kilometers) for possible incoherency in the data between LinkedGeoData and Wikidata.
       Also, the language have to be provided in order to get the information in the desired format.</p>
-    <img src="queryWikidata.png" alt="request" width="900">
-      <figcaption style="text-align: center;">Fig. 4: Example of Wikidata query and result</figcaption>
+      <figure typeOf="sa:image">
+        <img src="queryWikidata.png" alt="request" width="900">
+        <figcaption style="text-align: center;">Fig. 10: Example of Wikidata query and result</figcaption>
+      </figure>
     <p></p>
-    <p>The endpoint from Suggestion Service responsible for getting details about a place is getDetails. 
+    <p>The endpoint from Suggestion Service responsible for getting details about a place is Details. 
       When calling this endpoint, as input we have to provide the coordinates of the palace in latitude and longitude, an error maximum distance
       and the language desired for getting the results. It generates the following information about that specific place:
       place name, an URL corresponding to the Wikidata resource of the place, and, if exists, a short place description, 
       a image and the address.
     </p>
     <p></p>
-    <img src="getDetails.png" alt="request" width="900">
-      <figcaption style="text-align: center;">Fig. 4: Example of getDetails result</figcaption>
-    <p></p>
+    <figure typeOf="sa:image">
+      <img src="getDetails.png" alt="request" width="900">
+      <figcaption style="text-align: center;">Fig. 11: Example of Details result</figcaption>
+    </figure>
+    <br>
     <p>
         For both LinkedGeoData and Wikidata, <b>SPARQL</b> was used as query language and the results were taken
         at the front end level in  <b>JSON</b> format.
@@ -230,6 +271,7 @@
     <ul>
       <li>https://wiki.openstreetmap.org/wiki/Main_Page</li>
       <li>http://linkedgeodata.org/</li>
+      <li>https://www.wikidata.org/wiki/Wikidata:Main_Page</li>
       <li>https://www.dbpedia.org/</li>
       <li>https://schema.org/Map</li>
       <li>https://www.programmableweb.com/category/travel/api</li>
